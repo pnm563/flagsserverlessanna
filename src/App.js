@@ -18,7 +18,7 @@ class TestButton extends Component {
 
   async apiTest() {
     //console.log((await Auth.currentSession()).getIdToken().getJwtToken());
-    await API.get('devAPI', '/')
+    await API.get('devAPI', '/thing')
       .then(response => {
         console.log(response);
 
@@ -99,7 +99,7 @@ Amplify.configure({
     endpoints: [
       {
         name: "devAPI",
-        endpoint: "https://um97twam5a.execute-api.eu-west-2.amazonaws.com/Prod",
+        endpoint: "https://um97twam5a.execute-api.eu-west-2.amazonaws.com/Prod/",
         custom_header: async () => {
           return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
         }
