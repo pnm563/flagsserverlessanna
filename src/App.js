@@ -11,6 +11,11 @@ const signUpConfig = {
   hiddenDefaults: ['username', 'phone_number'],
 };
 
+const myInit = {
+  body: {}, // replace this with attributes you need
+  headers: {}, // OPTIONAL
+};
+
 class TestButton extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +23,7 @@ class TestButton extends Component {
 
   async apiTest() {
     //console.log((await Auth.currentSession()).getIdToken().getJwtToken());
-    await API.get('devAPI', '/thing')
+    await API.post('localAPI', '/thing', myInit)
       .then(response => {
         console.log(response);
 
@@ -36,7 +41,37 @@ class TestButton extends Component {
 
 
   render() {
-    return <button onClick={() => this.apiTest()}>Click for API goodness</button>
+    return <button onClick={() => this.apiTest()}>Click for local API goodness</button>
+  }
+
+};
+
+class TestButton2 extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  async apiTest() {
+    //console.log((await Auth.currentSession()).getIdToken().getJwtToken());
+    await API.post('devAPI', '/thing', myInit)
+      .then(response => {
+        console.log(response);
+
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("complete");
+      }
+      );
+
+  }
+
+
+
+  render() {
+    return <button onClick={() => this.apiTest()}>Click for cloud API goodness</button>
   }
 
 };
@@ -75,6 +110,7 @@ function App() {
           Learn React
         </a>
         <TestButton></TestButton>
+        <TestButton2></TestButton2>
         <SignOutButton></SignOutButton>
       </header>
 
@@ -108,7 +144,14 @@ Amplify.configure({
         name: "MyCustomCloudFrontApi",
         endpoint: "https://api.my-custom-cloudfront-domain.com",
 
-      }
+      },
+      {
+        name: "localAPI",
+        endpoint: "http://localhost:3000",
+        custom_header: async () => {
+          return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+        }
+      },
     ]
   }
 });
