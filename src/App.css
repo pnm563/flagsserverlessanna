@@ -28,6 +28,22 @@
   color: #61dafb;
 }
 
+.navbar {
+  background-color: #d1e5e1;
+}
+
+.navbar-text {
+  padding: 5px;
+}
+
+.correctFooter {
+  background-color: #d4edda;
+}
+
+.incorrectFooter {
+  background-color: #f8d7da;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

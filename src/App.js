@@ -1,122 +1,96 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-import Amplify, { API, Auth } from 'aws-amplify';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+import { Container, Navbar, Nav } from 'react-bootstrap';
+
+
+// Components
+import FlagBrowser from './flagBrowser';
+import Home from './home';
+import Utilities from './utilities';
+import Quiz from './quiz';
+
+import Amplify, { Auth } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
+
 import '@aws-amplify/ui/dist/style.css';
+import './App.css';
 
 const signUpConfig = {
   header: 'Sign up',
   hiddenDefaults: ['username', 'phone_number'],
 };
 
-const myInit = {
-  body: {}, // replace this with attributes you need
-  headers: {}, // OPTIONAL
-};
+class App extends Component {
 
-class TestButton extends Component {
   constructor(props) {
     super(props);
+    
   }
 
-  async apiTest() {
-    //console.log((await Auth.currentSession()).getIdToken().getJwtToken());
-    await API.post('localAPI', '/thing', myInit)
-      .then(response => {
-        console.log(response);
-
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      .finally(() => {
-        console.log("complete");
-      }
-      );
-
-  }
-
-
-
-  render() {
-    return <button onClick={() => this.apiTest()}>Click for local API goodness</button>
-  }
-
-};
-
-class TestButton2 extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  async apiTest() {
-    //console.log((await Auth.currentSession()).getIdToken().getJwtToken());
-    await API.post('devAPI', '/thing', myInit)
-      .then(response => {
-        console.log(response);
-
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      .finally(() => {
-        console.log("complete");
-      }
-      );
-
-  }
-
-
-
-  render() {
-    return <button onClick={() => this.apiTest()}>Click for cloud API goodness</button>
-  }
-
-};
-
-class SignOutButton extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  signOut()
-  {
+  signOut() {
     Auth.signOut();
   }
 
   render() {
-    return <button onClick={() => this.signOut()}>Sign out NOW!</button>
+    return (
+      <Router>
+        <Container>
+          <Navbar expand="lg" bg="#aa3344">
+            <Navbar.Brand href="/">Flags Of The World</Navbar.Brand>
+            <Navbar.Toggle />
+            <Navbar.Collapse className="justify-content-end">
+              <Nav.Link disabled>
+                Welcome, {this.props.authData.username}
+              </Nav.Link>
+              <Navbar.Text>
+                <Link to="/">
+                  Home
+                </Link>
+              </Navbar.Text>
+              <Navbar.Text>
+                <Link to="/browse">
+                  Browse
+                </Link>
+              </Navbar.Text>
+              <Navbar.Text>
+                <Link to="/utilities">
+                  Utilities
+                </Link>
+              </Navbar.Text>
+              <Navbar.Text>
+                <Link to="/quiz">
+                  Quiz
+                </Link>
+              </Navbar.Text>
+
+              <Navbar.Text>
+                <Link to="" onClick={this.signOut}>Sign out</Link>
+              </Navbar.Text>
+
+
+            </Navbar.Collapse>
+          </Navbar>
+          <br></br>
+          <Switch>
+            <Route exact path="/">
+              <Home username={this.props.authData.username} />
+            </Route>
+            <Route path="/browse">
+              <FlagBrowser />
+            </Route>
+            <Route path="/utilities">
+              <Utilities />
+            </Route>
+            <Route path="/quiz">
+              <Quiz />
+            </Route>
+          </Switch>
+        </Container>
+      </Router>
+    );
   }
-}
-
-
-function App() {
-  return (
-    <div className="App">
-
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <TestButton></TestButton>
-        <TestButton2></TestButton2>
-        <SignOutButton></SignOutButton>
-      </header>
-
-    </div>
-
-  );
 }
 
 Amplify.configure({
