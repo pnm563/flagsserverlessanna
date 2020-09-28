@@ -5,7 +5,7 @@ import LoadingOverlay from 'react-loading-overlay';
 
 import { Button, Jumbotron } from 'react-bootstrap';
 
-const apiName = 'api7c7341e9';
+const apiName = 'devAPI';
 
 class Utilities extends Component {
 
