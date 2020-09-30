@@ -35,6 +35,7 @@ class Utilities extends Component {
     };
 
     buttonTest() {
+        console.log('toggling overlay');
         this.setState({isLoading: !this.state.isLoading});
     };
 
@@ -68,7 +69,7 @@ class Utilities extends Component {
                 </Jumbotron>  </div>
                 
         </LoadingOverlay>
-        <Button onClick={() => this.buttonTest}>Test overlay</Button>
+        <Button onClick={() => this.buttonTest()}>Test overlay</Button>
         <Button onClick={() => this.apiTest()}>Test API</Button>
         </div>
     }
