@@ -3,7 +3,7 @@ import { Card, CardColumns } from 'react-bootstrap';
 import { API } from 'aws-amplify';
 import LoadingOverlay from 'react-loading-overlay';
 
-const apiName = 'api7c7341e9';
+const apiName = 'devAPI';
 
 
 class FlagBrowser extends Component {
