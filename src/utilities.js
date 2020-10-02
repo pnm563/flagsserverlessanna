@@ -14,6 +14,7 @@ class Utilities extends Component {
 
         this.state = { isLoading: false };
         this.populateFlagDB = this.populateFlagDB.bind(this);
+        this.populateOneFlag = this.populateOneFlag.bind(this);
         this.buttonTest = this.buttonTest.bind(this);
         this.apiTest = this.apiTest.bind(this);
 
@@ -33,6 +34,20 @@ class Utilities extends Component {
         });
         
     };
+
+    populateOneFlag() {
+        
+        let random = Math.floor(Math.random() * 10);
+        
+        API.post(apiName, '/items', { body: theFlags.flags[random] })
+        .catch(error => console.log(error.response))
+        .finally(() => {
+            this.setState({isLoading: false});
+        });
+    
+    return true;
+    }
+
 
     buttonTest() {
         console.log('toggling overlay');
@@ -66,6 +81,7 @@ class Utilities extends Component {
                       <h1>Welcome to Utilities</h1>
                       <p></p>
                 <Button variant="primary" onClick={this.populateFlagDB}>Populate flag DB</Button>
+                <Button variant="primary" onClick={this.populateOneFlag}>Populate one DB</Button>
                 </Jumbotron>  </div>
                 
         </LoadingOverlay>

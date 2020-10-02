@@ -3,7 +3,7 @@ import { API } from 'aws-amplify';
 import LoadingOverlay from 'react-loading-overlay';
 import { CardColumns, Card, Alert, Jumbotron } from 'react-bootstrap';
 
-const apiName = 'api7c7341e9';
+const apiName = 'devAPI';
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
