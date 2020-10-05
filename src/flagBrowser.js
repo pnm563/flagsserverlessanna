@@ -8,39 +8,45 @@ const apiName = 'devAPI';
 
 class FlagBrowser extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
-        this.state = {  flags: [], 
-                         isLoading: false};
+        this.state = {
+            flags: [],
+            isLoading: false
+        };
     }
 
-    getFlags = async () => {
-        console.log('calling api');
+    getFlags() {
+        console.log('getFlags begins');
 
-        this.setState({isLoading: true});
+        this.setState({ isLoading: true });
 
-        await API.get(apiName, '/items')
+        API.get(apiName, '/items')
             .then(response => {
+                this.setState({ flags: response.items });
+                console.log("State set with flags...");
                 console.log(response);
-                this.setState({ flags: response.items});
             })
             .catch(error => {
-                console.log(error);
+                alert(error);
             })
             .finally(() => {
-                this.setState({isLoading: false});
+                this.setState({ isLoading: false });
+                console.log('finally done');
             }
             );
+
+        console.log('flag get kicked off');
     };
 
-    async componentDidMount() {
-        await this.getFlags();
+    componentDidMount() {
+        this.getFlags();
     }
 
 
     render() {
-        
-        
+
+
         return (
             <LoadingOverlay
                 active={this.state.isLoading}
